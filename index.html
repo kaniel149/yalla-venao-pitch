@@ -163,7 +163,7 @@ footer { text-align:center; padding:32px; color:var(--text-muted); font-size:13p
     <h1>Yalla Venao</h1>
     <div class="subtitle">The delivery & services super-app for Playa Venao, Panama</div>
     <div class="tagline">Like Wolt, but for a surf village</div>
-    <div class="badge">95% Built — Ready to Launch</div>
+    <div class="badge">100% Built — Live & Ready</div>
     <div class="stats reveal">
       <div class="stat-card">
         <div class="num">13</div>
@@ -313,80 +313,68 @@ footer { text-align:center; padding:32px; color:var(--text-muted); font-size:13p
   <div class="container">
     <div class="section-header reveal">
       <div class="tag" style="background:rgba(255,255,255,0.15)">Launch Roadmap</div>
-      <h2>What's Left — The Launch Process</h2>
-      <p style="color:rgba(255,255,255,0.7)">~10 working days from code to live orders.</p>
+      <h2>All Tech Done — Field Work Remaining</h2>
+      <p style="color:rgba(255,255,255,0.7)">The app is live. Database is running. Only boots-on-the-ground work left.</p>
     </div>
     <div class="process-grid reveal">
-      <div class="process-card">
-        <div class="step">1</div>
-        <h3>Backend & Auth</h3>
-        <p>Connect Supabase — database, authentication, real-time subscriptions.</p>
-        <ul class="tasks">
-          <li>Supabase project setup</li>
-          <li>User auth (email/phone)</li>
-          <li>Orders table + real-time</li>
-          <li>RLS security policies</li>
-        </ul>
-        <p style="color:var(--gold); margin-top:8px; font-weight:600;">2-3 days</p>
+      <div class="process-card" style="border-color:var(--accent-light)">
+        <div class="step" style="background:var(--accent-light)">✓</div>
+        <h3 style="color:var(--accent-light)">Backend & Auth — DONE</h3>
+        <p>Supabase live, 5 tables, RLS, real-time, auth, 20 businesses seeded.</p>
+        <p style="color:var(--accent-light); margin-top:8px; font-weight:600;">Completed</p>
+      </div>
+      <div class="process-card" style="border-color:var(--accent-light)">
+        <div class="step" style="background:var(--accent-light)">✓</div>
+        <h3 style="color:var(--accent-light)">Deploy — DONE</h3>
+        <p>Live on Vercel: <a href="https://yalla-venao.vercel.app" style="color:var(--gold)">yalla-venao.vercel.app</a></p>
+        <p style="color:var(--accent-light); margin-top:8px; font-weight:600;">Completed</p>
       </div>
       <div class="process-card">
-        <div class="step">2</div>
+        <div class="step">1</div>
         <h3>Vendor Onboarding</h3>
-        <p>Sign up the 13 businesses — real menus, real photos, signed agreements.</p>
+        <p>Visit each business, sign agreements, photograph real dishes and venues.</p>
         <ul class="tasks">
-          <li>Visit each business in person</li>
+          <li>Visit 13 businesses in person</li>
           <li>Photograph dishes & venue</li>
           <li>Collect real menus & prices</li>
           <li>Sign vendor agreements</li>
-          <li>Replace Unsplash stock photos</li>
+          <li>Upload real photos to replace stock</li>
         </ul>
         <p style="color:var(--gold); margin-top:8px; font-weight:600;">2-3 days (field work)</p>
       </div>
       <div class="process-card">
-        <div class="step">3</div>
-        <h3>WhatsApp & Payments</h3>
-        <p>Order flow: customer orders → vendor gets WhatsApp → courier delivers → cash.</p>
-        <ul class="tasks">
-          <li>WhatsApp Business API for order alerts</li>
-          <li>Yappy integration (Panama payments)</li>
-          <li>Cash on delivery flow</li>
-          <li>Order status push notifications</li>
-        </ul>
-        <p style="color:var(--gold); margin-top:8px; font-weight:600;">2-3 days</p>
-      </div>
-      <div class="process-card">
-        <div class="step">4</div>
+        <div class="step">2</div>
         <h3>Courier Recruitment</h3>
-        <p>Recruit 3-5 local riders. Scooter/bike. Train the app.</p>
+        <p>Recruit 3-5 local riders. Scooter/bike. Train on the courier portal.</p>
         <ul class="tasks">
           <li>Post courier-signup landing page</li>
           <li>WhatsApp group for couriers</li>
           <li>Training on courier portal</li>
           <li>Set delivery zones & fees</li>
         </ul>
-        <p style="color:var(--gold); margin-top:8px; font-weight:600;">2-3 days</p>
+        <p style="color:var(--gold); margin-top:8px; font-weight:600;">2-3 days (field work)</p>
       </div>
       <div class="process-card">
-        <div class="step">5</div>
-        <h3>Deploy & Test</h3>
-        <p>Go live on production domain. Test the full order cycle end-to-end.</p>
+        <div class="step">3</div>
+        <h3>Test Orders</h3>
+        <p>Run 5-10 real test orders end-to-end with friendly businesses.</p>
         <ul class="tasks">
-          <li>Domain: yallavenao.com</li>
-          <li>Vercel production deploy</li>
-          <li>5 test orders with real businesses</li>
-          <li>Fix edge cases</li>
+          <li>Place test orders with 3 vendors</li>
+          <li>Test courier delivery flow</li>
+          <li>Verify WhatsApp notifications</li>
+          <li>Fix any edge cases</li>
         </ul>
         <p style="color:var(--gold); margin-top:8px; font-weight:600;">1 day</p>
       </div>
       <div class="process-card">
-        <div class="step">6</div>
-        <h3>Launch & Marketing</h3>
-        <p>Ads go live. Instagram launch. Word of mouth takes over.</p>
+        <div class="step">4</div>
+        <h3>Launch & Spread the Word</h3>
+        <p>Instagram launch, flyers, word of mouth. In a village this size — one week and everyone knows.</p>
         <ul class="tasks">
           <li>Instagram Reels: "order from the hammock"</li>
           <li>Meta ads: $30-45/day geo-targeted</li>
           <li>Flyers at hostels & surf camps</li>
-          <li>Launch party at Wao Beach Bar</li>
+          <li>Launch event at a partner venue</li>
         </ul>
         <p style="color:var(--gold); margin-top:8px; font-weight:600;">Ongoing</p>
       </div>
@@ -434,6 +422,7 @@ footer { text-align:center; padding:32px; color:var(--text-muted); font-size:13p
       <h2>Links & Assets</h2>
     </div>
     <div class="links-grid reveal">
+      <div class="link-card" style="border-color:var(--accent-light)"><div class="icon">🚀</div><div class="info"><h4>Live App</h4><a href="https://yalla-venao.vercel.app" target="_blank">yalla-venao.vercel.app</a></div></div>
       <div class="link-card"><div class="icon">📂</div><div class="info"><h4>GitHub Repo</h4><p>Full source code — React + TypeScript</p></div></div>
       <div class="link-card"><div class="icon">📄</div><div class="info"><h4>Legal Docs (4)</h4><p>ToS, Privacy Policy, Vendor & Courier Agreements</p></div></div>
       <div class="link-card"><div class="icon">📊</div><div class="info"><h4>Ads Strategy</h4><p>Meta + Google ads plan, budgets, copy variants, targeting</p></div></div>
@@ -460,8 +449,8 @@ footer { text-align:center; padding:32px; color:var(--text-muted); font-size:13p
       <div class="tech-pill">TypeScript</div>
       <div class="tech-pill">Vite</div>
       <div class="tech-pill">Tailwind CSS</div>
-      <div class="tech-pill">Supabase (planned)</div>
-      <div class="tech-pill">Vercel</div>
+      <div class="tech-pill" style="border-color:var(--accent-light);color:var(--accent-light)">Supabase (Live)</div>
+      <div class="tech-pill" style="border-color:var(--accent-light);color:var(--accent-light)">Vercel (Deployed)</div>
       <div class="tech-pill">WhatsApp API</div>
       <div class="tech-pill">GPS / Geolocation</div>
     </div>
