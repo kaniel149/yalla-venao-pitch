@@ -127,6 +127,14 @@ footer { text-align:center; padding:32px; color:var(--text-muted); font-size:13p
 .wa-float { position:fixed; bottom:24px; right:24px; background:#25D366; color:#fff; width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:28px; box-shadow:0 4px 20px rgba(37,211,102,0.4); z-index:999; transition:transform 0.2s; }
 .wa-float:hover { transform:scale(1.1); }
 
+/* ── iPhone Mockup ────────────────────── */
+.phone-gallery { display:flex; gap:32px; overflow-x:auto; padding:20px 0; justify-content:center; flex-wrap:wrap; }
+.phone-mockup { flex-shrink:0; width:220px; }
+.phone-frame { background:#000; border-radius:32px; padding:12px; box-shadow:0 20px 60px rgba(0,0,0,0.5), inset 0 0 0 2px #333; position:relative; }
+.phone-frame::before { content:''; position:absolute; top:8px; left:50%; transform:translateX(-50%); width:60px; height:6px; background:#222; border-radius:3px; z-index:2; }
+.phone-frame img { width:100%; border-radius:20px; display:block; }
+.phone-label { text-align:center; margin-top:12px; font-size:13px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; }
+
 @media(max-width:600px) {
   section { padding:60px 0; }
   nav .links { display:none; }
@@ -172,6 +180,43 @@ footer { text-align:center; padding:32px; color:var(--text-muted); font-size:13p
       <div class="stat-card">
         <div class="num">15%</div>
         <div class="label">Commission per order</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- App Screenshots -->
+<section style="background:var(--surface)">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="tag">Live App Preview</div>
+      <h2>This Is What Customers See</h2>
+      <p>Fully built React app — mobile-first, day/night auto-theme, GPS-enabled.</p>
+    </div>
+    <div class="phone-gallery reveal">
+      <div class="phone-mockup">
+        <div class="phone-frame"><img src="screens/home.png" alt="Home"></div>
+        <div class="phone-label">Home</div>
+      </div>
+      <div class="phone-mockup">
+        <div class="phone-frame"><img src="screens/explore.png" alt="Explore"></div>
+        <div class="phone-label">Explore</div>
+      </div>
+      <div class="phone-mockup">
+        <div class="phone-frame"><img src="screens/business.png" alt="Business"></div>
+        <div class="phone-label">Business Page</div>
+      </div>
+      <div class="phone-mockup">
+        <div class="phone-frame"><img src="screens/vendor.png" alt="Vendor"></div>
+        <div class="phone-label">Vendor Portal</div>
+      </div>
+      <div class="phone-mockup">
+        <div class="phone-frame"><img src="screens/courier.png" alt="Courier"></div>
+        <div class="phone-label">Courier Portal</div>
+      </div>
+      <div class="phone-mockup">
+        <div class="phone-frame"><img src="screens/admin.png" alt="Admin"></div>
+        <div class="phone-label">Admin Panel</div>
       </div>
     </div>
   </div>
