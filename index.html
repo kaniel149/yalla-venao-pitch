@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yalla Venao - Pitch Deck</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --teal: #0d9488;
+  --orange: #f97316;
+  --dark: #0a0a0f;
+  --card: rgba(255,255,255,0.04);
+  --card-border: rgba(255,255,255,0.08);
+  --text: #e4e4e7;
+  --text-muted: #a1a1aa;
+  --gradient: linear-gradient(135deg, #0d9488, #f97316);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--dark);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Scroll animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+section {
+  padding: 100px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  margin-bottom: 16px;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-sub {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin-bottom: 48px;
+  max-width: 600px;
+}
+
+/* Glass card */
+.glass {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 28px;
+  backdrop-filter: blur(12px);
+  transition: transform 0.3s, border-color 0.3s;
+}
+.glass:hover {
+  transform: translateY(-4px);
+  border-color: rgba(13,148,136,0.3);
+}
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  padding: 40px 24px;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(13,148,136,0.15), transparent 70%);
+  top: 10%; left: -10%;
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(249,115,22,0.12), transparent 70%);
+  bottom: 5%; right: -5%;
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 100px;
+  border: 1px solid var(--card-border);
+  background: var(--card);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+  letter-spacing: 0.5px;
+}
+.hero h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(3.5rem, 10vw, 7rem);
+  font-weight: 900;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.05;
+  margin-bottom: 24px;
+}
+.hero p {
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  color: var(--text-muted);
+  max-width: 550px;
+  margin-bottom: 12px;
+}
+.hero .tagline {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-top: 8px;
+  padding: 8px 24px;
+  border-radius: 100px;
+  border: 1px solid var(--card-border);
+  background: var(--card);
+}
+.scroll-hint {
+  position: absolute;
+  bottom: 40px;
+  animation: bounce 2s infinite;
+  font-size: 1.5rem;
+  color: var(--text-muted);
+}
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+
+/* ─── OPPORTUNITY ─── */
+.opp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+}
+.opp-grid .glass .emoji { font-size: 2rem; margin-bottom: 12px; display: block; }
+.opp-grid .glass h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; }
+.opp-grid .glass p { color: var(--text-muted); font-size: 0.95rem; }
+
+/* ─── BUILT ─── */
+.built-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.check-list { list-style: none; }
+.check-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--card-border);
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+.check-list li::before {
+  content: '✅ ';
+}
+.check-list li:last-child { border-bottom: none; }
+
+.portal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+.portal-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 20px;
+}
+.portal-card h4 {
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+.portal-card p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+/* ─── BUSINESSES ─── */
+.biz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+.biz-card {
+  position: relative;
+  overflow: hidden;
+}
+.biz-card .cat {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--teal);
+  margin-bottom: 8px;
+}
+.biz-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 6px; }
+.biz-card p { color: var(--text-muted); font-size: 0.9rem; }
+.biz-card .biz-emoji { font-size: 1.8rem; margin-bottom: 12px; display: block; }
+
+/* ─── ROADMAP ─── */
+.roadmap {
+  position: relative;
+  padding-left: 32px;
+}
+.roadmap::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--teal), var(--orange));
+  border-radius: 2px;
+}
+.roadmap-item {
+  position: relative;
+  margin-bottom: 32px;
+}
+.roadmap-item::before {
+  content: '';
+  position: absolute;
+  left: -29px;
+  top: 8px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gradient);
+  border: 2px solid var(--dark);
+}
+.roadmap-item h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 4px; }
+.roadmap-item p { color: var(--text-muted); font-size: 0.9rem; }
+.roadmap-item .est {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  background: rgba(13,148,136,0.15);
+  color: var(--teal);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.total-badge {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 12px 28px;
+  border-radius: 12px;
+  background: var(--gradient);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+/* ─── REVENUE ─── */
+.rev-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+}
+.rev-card .num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── INSTAGRAM ─── */
+.insta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+.insta-card {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.insta-card:hover { border-color: rgba(249,115,22,0.4); }
+.insta-card h4 { font-weight: 600; margin-bottom: 4px; }
+.insta-card p { color: var(--text-muted); font-size: 0.85rem; }
+.insta-card .handle { color: var(--orange); font-weight: 500; font-size: 0.9rem; }
+
+/* ─── TECH ─── */
+.tech-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.tech-pill {
+  padding: 16px 28px;
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  font-weight: 600;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+.tech-pill:hover { border-color: var(--teal); }
+.tech-pill.planned { opacity: 0.6; font-style: italic; }
+
+/* ─── FOOTER ─── */
+footer {
+  text-align: center;
+  padding: 60px 24px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  border-top: 1px solid var(--card-border);
+}
+
+/* ─── FLOATING CTA ─── */
+.fab {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  padding: 16px 28px;
+  border-radius: 100px;
+  background: var(--gradient);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 8px 32px rgba(13,148,136,0.3);
+  z-index: 100;
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.fab:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(13,148,136,0.4);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 640px) {
+  section { padding: 60px 16px; }
+  .fab { padding: 14px 20px; font-size: 0.9rem; bottom: 20px; right: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- FLOATING CTA -->
+<a href="https://wa.me/972000000000" target="_blank" class="fab">💬 Let's Talk</a>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🏄‍♂️ A pitch for Gur</div>
+  <h1>Yalla Venao</h1>
+  <p>The delivery & services app for Playa Venao, Panama</p>
+  <div class="tagline">🛵 Like Wolt, but for a surf village</div>
+  <div class="scroll-hint">↓</div>
+</section>
+
+<!-- OPPORTUNITY -->
+<section>
+  <div class="reveal">
+    <h2>🌊 The Opportunity</h2>
+    <p class="section-sub">A captive market with zero competition.</p>
+  </div>
+  <div class="opp-grid">
+    <div class="glass reveal">
+      <span class="emoji">👥</span>
+      <h3>500–1,000 People</h3>
+      <p>Surfers, digital nomads, and tourists at any given time in a tiny beach village.</p>
+    </div>
+    <div class="glass reveal">
+      <span class="emoji">🏆</span>
+      <h3>Zero Competition</h3>
+      <p>No delivery app exists. No Uber Eats, no Rappi, no Pedidos Ya. Nothing.</p>
+    </div>
+    <div class="glass reveal">
+      <span class="emoji">☀️</span>
+      <h3>Year-Round Tourism</h3>
+      <p>High season Dec–Apr with peak traffic. But tourists come all year.</p>
+    </div>
+    <div class="glass reveal">
+      <span class="emoji">💰</span>
+      <h3>Break-Even: 8 Orders/Day</h3>
+      <p>15% commission model. Low overhead. Profitable from week one.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S BUILT -->
+<section>
+  <div class="reveal">
+    <h2>📱 What's Already Built</h2>
+    <p class="section-sub">This isn't an idea — it's a product that needs a backend.</p>
+  </div>
+  <div class="built-cols">
+    <div class="glass reveal">
+      <h3 style="margin-bottom:16px">Core Platform</h3>
+      <ul class="check-list">
+        <li>Full React + TypeScript + Vite + Tailwind frontend</li>
+        <li>4 portals: Customer, Vendor, Courier, Admin</li>
+        <li>13 real businesses mapped with menus & prices</li>
+        <li>GPS location, dark/light theme</li>
+        <li>Vendor & courier recruitment landing pages</li>
+        <li>Legal: ToS, Privacy Policy, Vendor & Courier agreements</li>
+        <li>Full Meta + Google ads strategy</li>
+      </ul>
+    </div>
+    <div class="glass reveal">
+      <h3 style="margin-bottom:16px">Pages Built</h3>
+      <div class="portal-grid">
+        <div class="portal-card">
+          <h4>🛒 Customer</h4>
+          <p>Home, Explore, Business, Cart, Orders, Track Order, Profile</p>
+        </div>
+        <div class="portal-card">
+          <h4>🏪 Vendor</h4>
+          <p>Dashboard, Menu, Orders, Onboarding</p>
+        </div>
+        <div class="portal-card">
+          <h4>🛵 Courier</h4>
+          <p>Dashboard, Delivery, Onboarding</p>
+        </div>
+        <div class="portal-card">
+          <h4>⚙️ Admin</h4>
+          <p>Dashboard, Businesses, Couriers</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESSES -->
+<section>
+  <div class="reveal">
+    <h2>🍕 The Businesses</h2>
+    <p class="section-sub">13 real businesses already mapped, with menus and prices ready.</p>
+  </div>
+  <div class="biz-grid">
+    <div class="glass biz-card reveal"><span class="biz-emoji">🍷</span><span class="cat">Fusion Restaurant</span><h3>La Quincha</h3><p>Panamanian-Spanish fusion, Michelin-awarded dessert</p></div>
+    <div class="glass biz-card reveal"><span class="biz-emoji">🥙</span><span class="cat">Israeli / Asian Fusion</span><h3>Coleos Cafe</h3><p>Hummus, pad thai, kebabs</p></div>
+    <div class="glass biz-card reveal"><span class="biz-emoji">🐟</span><span class="cat">Seafood</span><h3>El Sitio Restaurant</h3><p>Beachfront, fresh catch daily</p></div>
+    <div class="glass biz-card reveal"><span class="biz-emoji">🧆</span><span class="cat">Middle Eastern</span><h3>La Hummuseria</h3><p>Israeli owner Gilad, best hummus in Venao</p></div>
+    <div class="glass biz-card reveal"><span class="biz-emoji">🍕</span><span class="cat">Wood-fired Pizza</span><h3>Pizza Gavilan</h3><p>Neapolitan style, surfer's pizza</p></div>
+    <div class="glass biz-card reveal"><span class="biz-emoji">🍹</span><span class="cat">Cocktails & Beer</span><h3>Wao Beach Bar</h3><p>Sunset drinks, coconut mojitos</p></div>
+    <div class="glass biz-card reveal"><span class="biz-emoji">🛒</span><span class="cat">Grocery</span><h3>Minisuper Venao</h3><p>Fruits, beer, sunscreen, water</p></div>
+    <div class="glass biz-card reveal"><span class="biz-emoji">🧘</span><span class="cat">Massage & Yoga</span><h3>Venao Wellness</h3><p>Swedish, sports recovery, sunrise yoga</p></div>
+    <div class="glass biz-card reveal"><span class="biz-emoji">🏄‍♂️</span><span class="cat">Surf</span><h3>El Sitio Surf School</h3><p>Board rental, group/private lessons</p></div>
+    <div class="glass biz-card reveal"><span class="biz-emoji">🏄</span><span class="cat">Surf</span><h3>Shaqui Surf School</h3><p>Local instructors, full day rentals</p></div>
+    <div class="glass biz-card reveal"><span class="biz-emoji">🇵🇦</span><span class="cat">Panamanian</span><h3>El Balo Restaurant</h3><p>Carne asada, ceviche, casado del día</p></div>
+    <div class="glass biz-card reveal"><span class="biz-emoji">🏄‍♂️</span><span class="cat">Surf & Food</span><h3>Surf Dogo</h3><p>Lessons + lunch packages</p></div>
+    <div class="glass biz-card reveal"><span class="biz-emoji">🍦</span><span class="cat">Desserts</span><h3>Motek Ice Cream</h3><p>Artisanal tropical flavors, best ice cream in Venao</p></div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section>
+  <div class="reveal">
+    <h2>🗺️ What's Left To Build</h2>
+    <p class="section-sub">The frontend is done. Here's what's needed to go live.</p>
+  </div>
+  <div class="roadmap reveal">
+    <div class="roadmap-item">
+      <h3>Backend & Database (Supabase)</h3>
+      <p>Auth, orders, real-time subscriptions</p>
+      <span class="est">2–3 days</span>
+    </div>
+    <div class="roadmap-item">
+      <h3>WhatsApp Integration</h3>
+      <p>Order notifications to vendors via WhatsApp API</p>
+      <span class="est">1 day</span>
+    </div>
+    <div class="roadmap-item">
+      <h3>Real Photos</h3>
+      <p>Replace Unsplash placeholders with real business photos from Instagram</p>
+      <span class="est">1 day</span>
+    </div>
+    <div class="roadmap-item">
+      <h3>Payment Integration (Yappy)</h3>
+      <p>Panama's most popular payment app</p>
+      <span class="est">2 days</span>
+    </div>
+    <div class="roadmap-item">
+      <h3>Production Deploy</h3>
+      <p>Domain, Vercel hosting, SSL certificate</p>
+      <span class="est">½ day</span>
+    </div>
+    <div class="roadmap-item">
+      <h3>Business Onboarding</h3>
+      <p>Sign agreements, upload menus — field work in Venao</p>
+      <span class="est">2–3 days</span>
+    </div>
+  </div>
+  <div class="reveal" style="margin-top:32px;text-align:center">
+    <div class="total-badge">🚀 ~10 days to launch-ready</div>
+  </div>
+</section>
+
+<!-- REVENUE -->
+<section>
+  <div class="reveal">
+    <h2>💰 Revenue Model</h2>
+    <p class="section-sub">Simple, proven, and scalable.</p>
+  </div>
+  <div class="rev-grid">
+    <div class="glass reveal">
+      <div class="num">15%</div>
+      <h3 style="margin:8px 0">Commission Per Order</h3>
+      <p style="color:var(--text-muted);font-size:0.9rem">Industry standard. No upfront cost for vendors.</p>
+    </div>
+    <div class="glass reveal">
+      <div class="num">$3-5K</div>
+      <h3 style="margin:8px 0">Monthly Target (High Season)</h3>
+      <p style="color:var(--text-muted);font-size:0.9rem">Cash on delivery — Panama standard. Break-even at 8 orders/day.</p>
+    </div>
+    <div class="glass reveal">
+      <div class="num">V2 🔮</div>
+      <h3 style="margin:8px 0">Future Expansion</h3>
+      <p style="color:var(--text-muted);font-size:0.9rem">Experiences: surf, yoga, ATV, fishing. Stays: cabinas, hostels, glamping.</p>
+    </div>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section>
+  <div class="reveal">
+    <h2>📸 Instagram — Social Proof</h2>
+    <p class="section-sub">Real businesses, real followings.</p>
+  </div>
+  <div class="insta-grid">
+    <a href="https://instagram.com/motekvenao" target="_blank" class="glass insta-card reveal"><h4>🍦 Motek Ice Cream</h4><span class="handle">@motekvenao</span></a>
+    <a href="https://instagram.com/laquincha.playavenao" target="_blank" class="glass insta-card reveal"><h4>🍷 La Quincha</h4><span class="handle">@laquincha.playavenao</span></a>
+    <a href="https://instagram.com/pizzagavilanvenao" target="_blank" class="glass insta-card reveal"><h4>🍕 Pizza Gavilan</h4><span class="handle">@pizzagavilanvenao</span></a>
+    <a href="https://instagram.com/elsitiohotel" target="_blank" class="glass insta-card reveal"><h4>🐟 El Sitio</h4><span class="handle">@elsitiohotel</span></a>
+    <div class="glass insta-card reveal" style="opacity:0.5"><h4>📷 Others</h4><p>Need to find/photograph</p></div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section>
+  <div class="reveal">
+    <h2>⚡ Tech Stack</h2>
+    <p class="section-sub">Modern, lightweight, production-ready.</p>
+  </div>
+  <div class="tech-pills reveal">
+    <div class="tech-pill">⚛️ React</div>
+    <div class="tech-pill">🔷 TypeScript</div>
+    <div class="tech-pill">⚡ Vite</div>
+    <div class="tech-pill">🎨 Tailwind CSS</div>
+    <div class="tech-pill planned">🗄️ Supabase (planned)</div>
+    <div class="tech-pill planned">▲ Vercel (planned)</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Built by <strong>KANIEL TORD LLC</strong> | 2026</p>
+</footer>
+
+<!-- Scroll reveal script (vanilla, tiny) -->
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
