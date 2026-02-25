@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yalla Venao — Business Directory</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #FF6B35;
+  --primary-dark: #E85520;
+  --accent: #1B4332;
+  --accent-light: #27AE60;
+  --gold: #FFD166;
+  --bg: #0F1117;
+  --surface: #161922;
+  --surface-2: #1C2030;
+  --text: #F4F4F5;
+  --text-secondary: #A1A1AA;
+  --text-muted: #52525B;
+  --border: rgba(255,255,255,0.06);
+  --radius: 16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.serif{font-family:'DM Serif Display',Georgia,serif;font-weight:400}
+
+/* Nav */
+.top-bar{position:sticky;top:0;z-index:100;background:rgba(15,17,23,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+.top-bar a{color:var(--primary);font-weight:600;text-decoration:none;font-size:14px}
+.top-bar h1{font-size:20px;color:var(--text)}
+.top-bar .count{color:var(--text-secondary);font-size:14px;font-family:'Plus Jakarta Sans',sans-serif}
+
+/* Filter tabs */
+.filters{display:flex;gap:8px;padding:20px 24px;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:1200px;margin:0 auto}
+.filters::-webkit-scrollbar{display:none}
+.filter-btn{padding:8px 18px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--text-secondary);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s;font-family:inherit}
+.filter-btn:hover{border-color:var(--primary);color:var(--primary)}
+.filter-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+
+/* Grid */
+.grid{max-width:1200px;margin:0 auto;padding:0 24px 80px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+
+/* Business Card */
+.biz-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all .3s;position:relative}
+.biz-card:hover{transform:translateY(-4px);border-color:rgba(255,107,53,0.3);box-shadow:0 12px 40px rgba(0,0,0,0.3)}
+.biz-card .img{height:180px;background-size:cover;background-position:center;position:relative}
+.biz-card .img::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 50%,rgba(0,0,0,0.6))}
+.biz-card .badge{position:absolute;top:12px;left:12px;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;z-index:1}
+.badge-food{background:#FF6B35;color:#fff}
+.badge-experience{background:#27AE60;color:#fff}
+.badge-stay{background:#3498DB;color:#fff}
+.badge-drinks{background:#E67E22;color:#fff}
+.badge-grocery{background:#1B4332;color:#fff}
+.badge-wellness{background:#9B59B6;color:#fff}
+.biz-card .info{padding:16px}
+.biz-card .name{font-family:'DM Serif Display',serif;font-size:18px;margin-bottom:4px}
+.biz-card .desc{color:var(--text-secondary);font-size:13px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.biz-card .meta{display:flex;align-items:center;gap:12px;margin-top:10px;font-size:12px;color:var(--text-muted)}
+.biz-card .star{color:var(--gold)}
+.biz-card .tags{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.biz-card .tag{padding:3px 8px;border-radius:6px;font-size:11px;background:rgba(255,255,255,0.05);color:var(--text-secondary)}
+
+/* Modal overlay */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);overflow-y:auto;padding:40px 20px}
+.modal-overlay.open{display:flex;justify-content:center;align-items:flex-start}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;max-width:900px;width:100%;overflow:hidden;animation:modalIn .3s ease}
+@keyframes modalIn{from{opacity:0;transform:translateY(30px) scale(0.97)}to{opacity:1;transform:none}}
+.modal-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.5);border:none;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10}
+.modal-hero{height:280px;background-size:cover;background-position:center;position:relative}
+.modal-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 40%,var(--surface))}
+.modal-body{padding:24px 32px 32px;position:relative}
+.modal-body .name{font-family:'DM Serif Display',serif;font-size:28px;margin-bottom:4px}
+.modal-body .desc{color:var(--text-secondary);font-size:14px;line-height:1.7;margin-bottom:20px}
+.modal-body .meta-row{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:24px;font-size:13px;color:var(--text-secondary)}
+.modal-body .meta-row span{display:flex;align-items:center;gap:6px}
+.modal-body .meta-row .icon{font-size:16px}
+
+/* Two columns: menu + phone mockup */
+.modal-columns{display:grid;grid-template-columns:1fr 280px;gap:32px;align-items:start}
+@media(max-width:700px){.modal-columns{grid-template-columns:1fr}}
+
+/* Menu items */
+.menu-section h3{font-size:16px;margin-bottom:16px;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:12px}
+.menu-item{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border)}
+.menu-item:last-child{border-bottom:none}
+.menu-item img{width:64px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0}
+.menu-item .mi-info{flex:1;min-width:0}
+.menu-item .mi-name{font-weight:600;font-size:14px;margin-bottom:2px}
+.menu-item .mi-desc{font-size:12px;color:var(--text-muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.menu-item .mi-price{font-weight:700;color:var(--primary);font-size:14px;white-space:nowrap;margin-left:8px}
+
+/* Phone mockup */
+.phone-mockup{background:#000;border-radius:36px;padding:12px;border:3px solid #333;position:sticky;top:100px}
+.phone-screen{background:#fff;border-radius:26px;overflow:hidden;aspect-ratio:9/19.5}
+.phone-screen .ps-header{background:var(--primary);padding:40px 16px 16px;color:#fff}
+.phone-screen .ps-header .ps-back{font-size:12px;opacity:0.8;margin-bottom:8px}
+.phone-screen .ps-header .ps-name{font-size:16px;font-weight:700}
+.phone-screen .ps-header .ps-meta{font-size:11px;opacity:0.8;margin-top:2px}
+.phone-screen .ps-img{height:120px;background-size:cover;background-position:center}
+.phone-screen .ps-info{padding:12px 14px}
+.phone-screen .ps-info .ps-title{font-size:14px;font-weight:700;color:#111;margin-bottom:4px}
+.phone-screen .ps-info .ps-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+.phone-screen .ps-info .ps-tag{font-size:9px;padding:2px 6px;background:#f0f0f0;border-radius:4px;color:#555}
+.phone-screen .ps-items{padding:0 14px 14px}
+.phone-screen .ps-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #eee}
+.phone-screen .ps-item img{width:40px;height:40px;border-radius:8px;object-fit:cover}
+.phone-screen .ps-item .psi-name{font-size:11px;font-weight:600;color:#222;flex:1}
+.phone-screen .ps-item .psi-price{font-size:11px;font-weight:700;color:var(--primary)}
+.phone-screen .ps-item .psi-add{width:22px;height:22px;border-radius:50%;background:var(--primary);color:#fff;border:none;font-size:14px;display:flex;align-items:center;justify-content:center;margin-left:4px}
+
+/* Search */
+.search-bar{max-width:1200px;margin:0 auto;padding:0 24px 16px}
+.search-bar input{width:100%;padding:12px 20px;border-radius:100px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:border .2s}
+.search-bar input:focus{border-color:var(--primary)}
+.search-bar input::placeholder{color:var(--text-muted)}
+
+/* Empty state */
+.empty{text-align:center;padding:80px 20px;color:var(--text-muted);font-size:16px}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="index.html">← Back to Pitch</a>
+  <h1 class="serif">Business Directory</h1>
+  <span class="count" id="bizCount">42 businesses</span>
+</div>
+
+<div class="filters" id="filters">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="food">🍽️ Restaurants</button>
+  <button class="filter-btn" data-filter="drinks">🍹 Drinks</button>
+  <button class="filter-btn" data-filter="grocery">🛒 Grocery</button>
+  <button class="filter-btn" data-filter="wellness">💆 Wellness</button>
+  <button class="filter-btn" data-filter="surf">🏄 Surf</button>
+  <button class="filter-btn" data-filter="experience">🎯 Experiences</button>
+  <button class="filter-btn" data-filter="stay">🏕️ Stays</button>
+</div>
+
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="Search businesses...">
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+const businesses = [
+  // FOOD
+  {id:'1',name:'La Quincha',category:'food',vertical:'food',image:'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80',rating:5.0,reviews:21,deliveryTime:'25–35',deliveryFee:2,minOrder:8,tags:['Panamanian','Seafood','Local Fav'],description:'Traditional Panamanian dishes with a modern twist. Fresh seafood, vibrant atmosphere, community feel.',phone:'50766123401',hours:{open:11,close:22},products:[{name:'Ceviche de Corvina',price:12,image:'https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=400&q=80',description:'Fresh corvina in limón mandarina, ají chombo, cilantro, red onion.'},{name:'Grilled Pargo',price:18,image:'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&q=80',description:'Whole red snapper, grilled over wood, arroz con coco.'},{name:'Ropa Vieja',price:14,image:'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&q=80',description:'Slow-braised shredded beef, sofrito, peppers.'},{name:'Sancocho',price:11,image:'https://images.unsplash.com/photo-1604152135912-04a022e23696?w=400&q=80',description:"Panama's national soup. Chicken, yuca, culantro, corn."}]},
+  {id:'2',name:'Coleos Cafe',category:'food',vertical:'food',image:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80',rating:4.7,reviews:133,deliveryTime:'20–30',deliveryFee:2,minOrder:10,tags:['Mediterranean','Asian Fusion','Vegetarian'],description:'Mediterranean-Asian fusion — hummus, pad Thai, kebabs, fresh local ingredients. Best coffee on the peninsula.',phone:'50766234512',hours:{open:7,close:21},products:[{name:'Hummus Plate',price:9,image:'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=400&q=80',description:'House hummus, roasted garlic, olive oil, fresh pita.'},{name:'Pad Thai',price:13,image:'https://images.unsplash.com/photo-1559314809-0d155014e29e?w=400&q=80',description:'Wok rice noodles, tofu or shrimp, tamarind, peanuts.'},{name:'Lamb Kebab Plate',price:15,image:'https://images.unsplash.com/photo-1544025162-d76538823936?w=400&q=80',description:'Grilled lamb and chicken kebabs, tzatziki, pita.'},{name:'Cold Brew',price:4,image:'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&q=80',description:'Local Chiriquí beans, 18-hour cold brew.'}]},
+  {id:'3',name:'El Sitio Restaurant',category:'food',vertical:'food',image:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80',rating:4.1,reviews:177,deliveryTime:'15–25',deliveryFee:0,minOrder:8,tags:['Seafood','Beach Bar','Surfer Spot'],description:'Right on the sand at El Sitio Hotel. Ceviche, grilled fish, cold beer. The original post-surf spot.',phone:'50766345623',hours:{open:10,close:23},products:[{name:'Ceviche Mixto',price:10,image:'https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=400&q=80',description:'Shrimp, octopus, corvina. With tostadas.'},{name:'Grilled Fish of the Day',price:16,image:'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&q=80',description:'Whatever they caught this morning.'},{name:'Balboa 6-pack',price:8,image:'https://images.unsplash.com/photo-1608270586620-248524c67de9?w=400&q=80',description:"Panama's national beer. Ice cold."}]},
+  {id:'4',name:'La Hummuseria',category:'food',vertical:'food',image:'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&q=80',rating:4.9,reviews:35,deliveryTime:'20–30',deliveryFee:2,minOrder:10,tags:['Middle Eastern','Vegan','Board Games'],description:'Hummus, falafel, and Middle Eastern bowls in a chill spot with board games.',phone:'50766456734',hours:{open:12,close:21},products:[{name:'Classic Hummus Bowl',price:11,image:'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=400&q=80',description:"Creamy hummus, olive oil, za'atar, pickled vegetables, pita."},{name:'Falafel Wrap',price:10,image:'https://images.unsplash.com/photo-1561043433-aaf687c4cf04?w=400&q=80',description:'Crispy falafel, tahini, greens, pickled cabbage. 100% vegan.'},{name:'Shakshuka',price:12,image:'https://images.unsplash.com/photo-1530469912745-a215c6b256ea?w=400&q=80',description:'Eggs poached in spiced tomato sauce, served with pita.'}]},
+  {id:'5',name:'Pizza Gavilan',category:'food',vertical:'food',image:'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80',rating:4.3,reviews:167,deliveryTime:'25–40',deliveryFee:2,minOrder:12,tags:['Pizza','Italian','Beachfront'],description:"Wood-fired pizza with a beachfront view. The most consistent pizza in Venao.",phone:'50766567845',hours:{open:17,close:22},products:[{name:'Margherita',price:14,image:'https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?w=400&q=80',description:'San Marzano tomato, fior di latte, basil.'},{name:'Venao Special',price:18,image:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',description:"Shrimp, jalapeño, garlic oil, mozzarella, cilantro."},{name:'Tiramisu',price:7,image:'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&q=80',description:'Homemade. They do it right.'}]},
+  {id:'11',name:'El Balo Restaurant',category:'food',vertical:'food',image:'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80',rating:4.6,reviews:94,deliveryTime:'20–35',deliveryFee:2,minOrder:10,tags:['Local','Grilled','Seafood'],description:'Grilled meats, fresh seafood, cold beer. No frills, all flavor.',phone:'50766920300',hours:{open:11,close:23},products:[{name:'Carne Asada',price:15,image:'https://images.unsplash.com/photo-1544025162-d76538823936?w=400&q=80',description:'Grilled beef with chimichurri, rice, patacones.'},{name:'Grilled Shrimp Plate',price:17,image:'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=400&q=80',description:'Jumbo shrimp, garlic butter, lime.'},{name:'Casado del Día',price:10,image:'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&q=80',description:"Today's set meal. Best value in Venao."}]},
+  {id:'12',name:'Motek Ice Cream',category:'food',vertical:'food',image:'https://images.unsplash.com/photo-1501443762994-82bd5dace89a?w=800&q=80',rating:4.9,reviews:38,deliveryTime:'10–20',deliveryFee:1,minOrder:4,tags:['Ice Cream','Tropical','Dessert'],description:'Tropical ice cream and sorbets made fresh daily. Maracuyá, guanábana, coco, mamey.',phone:'50766940500',hours:{open:11,close:21},products:[{name:'Single Scoop',price:4,image:'https://images.unsplash.com/photo-1501443762994-82bd5dace89a?w=400&q=80',description:'Choose from 6 tropical flavors.'},{name:'Double Scoop',price:7,image:'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=400&q=80',description:'Two scoops, cone or cup.'},{name:'Sundae Venao',price:11,image:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=80',description:'Two scoops + honey + coconut + fresh fruit.'}]},
+  // DB restaurants
+  {id:'14',name:'Cantina Venao',category:'food',vertical:'food',image:'https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800&q=80',rating:4.0,reviews:15,deliveryTime:'20–30',deliveryFee:2,minOrder:10,tags:['French-Seafood','Cocktails','Chill'],description:'French-seafood fusion bar. Good cocktails, chill atmosphere.',phone:'',hours:{open:12,close:23},products:[{name:'Fish Tacos',price:12,image:'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=400&q=80',description:'Grilled fish, cabbage slaw, chipotle mayo.'},{name:'French Onion Soup',price:10,image:'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&q=80',description:'Classic gratinée with Gruyère croutons.'}]},
+  {id:'15',name:'Eco Venao Restaurant',category:'food',vertical:'food',image:'https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=800&q=80',rating:4.5,reviews:40,deliveryTime:'25–40',deliveryFee:3,minOrder:12,tags:['Farm-to-Table','Eco','Fresh Juices'],description:'Farm-to-table dining at the eco lodge. Fresh juices, local ingredients.',phone:'',hours:{open:7,close:22},products:[{name:'Farm Bowl',price:14,image:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80',description:'Quinoa, roasted vegetables, avocado, tahini.'},{name:'Tropical Smoothie',price:6,image:'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&q=80',description:'Mango, passion fruit, banana, coconut milk.'}]},
+  {id:'16',name:'Gatto Blanco Beach',category:'food',vertical:'food',image:'https://images.unsplash.com/photo-1579684947550-22e945225d9a?w=800&q=80',rating:5.0,reviews:20,deliveryTime:'25–40',deliveryFee:2,minOrder:14,tags:['Italian','Pizza','Pasta','Beach'],description:'Italian restaurant right on the beach. Wood-fired pizza, fresh pasta, seafood.',phone:'',hours:{open:12,close:22},products:[{name:'Pasta Frutti di Mare',price:18,image:'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=400&q=80',description:'Fresh pasta with shrimp, clams, calamari.'},{name:'Margherita Napoletana',price:14,image:'https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?w=400&q=80',description:'San Marzano, buffalo mozzarella, fresh basil.'}]},
+  {id:'17',name:'Oleajes de Sabores',category:'food',vertical:'food',image:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80',rating:4.6,reviews:30,deliveryTime:'20–35',deliveryFee:2,minOrder:8,tags:['Panamanian','Seafood','Local'],description:'Authentic Panamanian seafood. Pescado frito con patacones done right.',phone:'',hours:{open:10,close:21},products:[{name:'Pescado Frito',price:12,image:'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&q=80',description:'Whole fried fish with patacones, rice, salad.'}]},
+  {id:'18',name:'Pan Ar Panaderia',category:'food',vertical:'food',image:'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80',rating:5.0,reviews:25,deliveryTime:'15–25',deliveryFee:1,minOrder:5,tags:['Bakery','Argentine','Breakfast'],description:'Argentine artisan bakery. Fresh bread, empanadas, pastries. Best breakfast in Venao.',phone:'',hours:{open:6,close:14},products:[{name:'Empanadas (3)',price:8,image:'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=400&q=80',description:'Argentine beef empanadas, freshly baked.'},{name:'Medialuna & Coffee',price:5,image:'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&q=80',description:'Argentine croissant with espresso.'}]},
+  {id:'19',name:'Donde Ruben',category:'food',vertical:'food',image:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80',rating:4.4,reviews:50,deliveryTime:'15–25',deliveryFee:1,minOrder:6,tags:['Local','Burgers','Cheap Eats'],description:'Local Panamanian joint. Burgers, seafood, cold beer. No frills, big portions.',phone:'',hours:{open:10,close:22},products:[{name:'Cheeseburger',price:9,image:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80',description:'Juicy beef burger, cheddar, lettuce, special sauce.'},{name:'Ceviche',price:10,image:'https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=400&q=80',description:'Fresh corvina with lime, onion, cilantro.'}]},
+  {id:'20',name:'Fama Sushi',category:'food',vertical:'food',image:'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=800&q=80',rating:3.8,reviews:22,deliveryTime:'25–40',deliveryFee:3,minOrder:15,tags:['Sushi','Japanese','Fusion'],description:'Sushi in the jungle. Fresh fish rolls, poke bowls, Japanese-Latin fusion.',phone:'',hours:{open:12,close:22},products:[{name:'Venao Roll',price:16,image:'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=400&q=80',description:'Shrimp tempura, avocado, mango, spicy mayo.'},{name:'Poke Bowl',price:14,image:'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80',description:'Fresh tuna, rice, edamame, avocado, ponzu.'}]},
+  {id:'21',name:'Sol Cafe',category:'food',vertical:'food',image:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80',rating:4.7,reviews:30,deliveryTime:'10–20',deliveryFee:1,minOrder:5,tags:['Coffee','Brunch','WiFi'],description:'Chill coffee shop and brunch spot. Acai bowls, smoothies, sandwiches. Good WiFi.',phone:'',hours:{open:7,close:16},products:[{name:'Acai Bowl',price:10,image:'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=400&q=80',description:'Acai, banana, granola, coconut, honey.'},{name:'Cold Brew',price:4,image:'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&q=80',description:'Local Chiriquí beans, 18-hour cold brew.'}]},
+  {id:'22',name:'Smart Delivery Venao',category:'grocery',vertical:'food',image:'https://images.unsplash.com/photo-1534723452862-4c874018d66d?w=800&q=80',rating:4.3,reviews:15,deliveryTime:'20–40',deliveryFee:2,minOrder:10,tags:['Delivery','Grocery','Essentials'],description:'Local delivery service. Groceries, drinks, essentials delivered to your door.',phone:'',hours:{open:8,close:20},products:[]},
+
+  // DRINKS
+  {id:'6',name:'Wao Beach Bar',category:'drinks',vertical:'food',image:'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&q=80',rating:5.0,reviews:13,deliveryTime:'10–20',deliveryFee:0,minOrder:5,tags:['Beach Bar','Cocktails','Sunset'],description:'Beachfront bar with the best sunset view in Venao. Creative cocktails, cold beer.',phone:'50766678956',hours:{open:14,close:0},products:[{name:'Venao Sunset',price:9,image:'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400&q=80',description:'Dark rum, passion fruit, ginger beer, lime.'},{name:'Coconut Mojito',price:8,image:'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&q=80',description:'White rum, coconut water, fresh mint, lime.'},{name:'Balboa Draft',price:4,image:'https://images.unsplash.com/photo-1608270586620-248524c67de9?w=400&q=80',description:"Panama's national beer. Ice cold."},{name:'Agua de Pipa',price:3,image:'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&q=80',description:'Fresh coconut water. Served in the coconut.'}]},
+
+  // GROCERY
+  {id:'7',name:'Minisuper Venao',category:'grocery',vertical:'food',image:'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=800&q=80',rating:4.2,reviews:44,deliveryTime:'15–25',deliveryFee:1,minOrder:5,tags:['Grocery','Essentials','Local'],description:"The town store. Beer, water, snacks, sunscreen, fresh fruit.",phone:'50766789067',hours:{open:7,close:21},products:[{name:'Tropical Fruit Box',price:8,image:'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=400&q=80',description:'Papaya, mango, pineapple, watermelon.'},{name:'Balboa 12-pack',price:14,image:'https://images.unsplash.com/photo-1608270586620-248524c67de9?w=400&q=80',description:'Cold and ready.'},{name:'Sunscreen Kit',price:18,image:'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&q=80',description:'SPF 50, aloe vera gel, reef-safe.'},{name:'Water 6-pack',price:5,image:'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&q=80',description:'Stay hydrated. Panama sun is no joke.'}]},
+
+  // WELLNESS
+  {id:'8',name:'Venao Wellness',category:'wellness',vertical:'food',image:'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80',rating:4.8,reviews:62,deliveryTime:'On request',deliveryFee:0,minOrder:40,tags:['Massage','Yoga','Beach Delivery'],description:'Sports massage, Swedish relaxation, yoga sessions. Beach or bungalow delivery.',phone:'50766890178',hours:{open:8,close:20},products:[{name:'Swedish (60 min)',price:55,image:'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=400&q=80',description:'Full body Swedish massage.'},{name:'Sports Recovery (45 min)',price:45,image:'https://images.unsplash.com/photo-1519824145371-296894a0daa9?w=400&q=80',description:'Deep tissue — for surfers.'},{name:'Sunrise Yoga (1 hr)',price:20,image:'https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?w=400&q=80',description:'Sunrise session on the beach.'}]},
+
+  // SURF
+  {id:'9',name:'El Sitio Surf School',category:'surf',vertical:'food',image:'https://images.unsplash.com/photo-1455729552865-3658a5d39692?w=800&q=80',rating:4.6,reviews:89,deliveryTime:'On request',deliveryFee:0,minOrder:20,tags:['Surf Lessons','Board Rental','All Levels'],description:'The original Venao surf school. Board rental, group lessons, private coaching.',phone:'50766901289',hours:{open:6,close:18},products:[{name:'Board Rental (half day)',price:20,image:'https://images.unsplash.com/photo-1505459668311-8dfac7952bf0?w=400&q=80',description:'Foam or fiberglass. Includes leash and wax.'},{name:'Group Lesson (2 hrs)',price:35,image:'https://images.unsplash.com/photo-1455729552865-3658a5d39692?w=400&q=80',description:'Max 6 students. Theory + water time.'},{name:'Private Session (1 hr)',price:60,image:'https://images.unsplash.com/photo-1520443240718-fce21901db79?w=400&q=80',description:'1:1 with an instructor.'}]},
+  {id:'10',name:'Shaqui Venao Surf School',category:'surf',vertical:'experience',image:'https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=800&q=80',rating:4.9,reviews:78,deliveryTime:'On request',deliveryFee:0,minOrder:40,tags:['Surf Lessons','Board Rental','Beginner Friendly'],description:'One of the most popular surf schools. Shaqui and his team know every wave.',phone:'50766910200',hours:{open:6,close:17},products:[{name:'Group Lesson (2 hrs)',price:40,image:'https://images.unsplash.com/photo-1455729552865-3658a5d39692?w=400&q=80',description:'Group surf lesson with Shaqui. Max 8 students.'},{name:'Private Lesson (1 hr)',price:65,image:'https://images.unsplash.com/photo-1520443240718-fce21901db79?w=400&q=80',description:'1-on-1 session. Board included.'},{name:'Board Rental (full day)',price:25,image:'https://images.unsplash.com/photo-1505459668311-8dfac7952bf0?w=400&q=80',description:'Foam or shortboard. Wax and leash included.'}]},
+
+  // EXPERIENCES
+  {id:'exp1',name:'Playa Venao Surf School',category:'surf',vertical:'experience',image:'https://images.unsplash.com/photo-1455729552865-3658a5d39692?w=800&q=80',rating:4.8,reviews:56,deliveryTime:'On request',deliveryFee:0,minOrder:45,tags:['Surf Lessons','All Levels'],description:'Professional surf lessons on one of Panama\'s best beginner waves.',phone:'',hours:{open:7,close:17},products:[{name:'Surf Lesson',price:45,image:'https://images.unsplash.com/photo-1455729552865-3658a5d39692?w=400&q=80',description:'Group surf lesson, 2 hours. All equipment.'}]},
+  {id:'exp2',name:'Venao Yoga Retreat',category:'wellness',vertical:'experience',image:'https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?w=800&q=80',rating:4.9,reviews:34,deliveryTime:'On request',deliveryFee:0,minOrder:15,tags:['Yoga','Sunrise','Beach'],description:'Sunrise yoga class on the beach. All levels welcome. Mats provided.',phone:'',hours:{open:6,close:10},products:[{name:'Yoga Class',price:15,image:'https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?w=400&q=80',description:'Sunrise beach yoga session. Mat provided.'}]},
+  {id:'exp3',name:'ATV Jungle Tour',category:'experience',vertical:'experience',image:'https://images.unsplash.com/photo-1533130061792-64b345e4a833?w=800&q=80',rating:4.7,reviews:41,deliveryTime:'On request',deliveryFee:0,minOrder:65,tags:['ATV','Jungle','Adventure'],description:'Explore the jungle trails and hilltops on ATVs. Epic views, muddy fun.',phone:'',hours:{open:8,close:16},products:[{name:'ATV Tour',price:65,image:'https://images.unsplash.com/photo-1533130061792-64b345e4a833?w=400&q=80',description:'3-hour guided ATV tour through jungle and coast.'}]},
+  {id:'exp4',name:'Fishing Trip Panama',category:'experience',vertical:'experience',image:'https://images.unsplash.com/photo-1500539100099-e16bb0070fb7?w=800&q=80',rating:4.6,reviews:28,deliveryTime:'On request',deliveryFee:0,minOrder:120,tags:['Fishing','Ocean','Sport'],description:'Deep-sea sport fishing. Catch roosterfish, tuna, mahi-mahi.',phone:'',hours:{open:5,close:12},products:[{name:'Fishing Trip',price:120,image:'https://images.unsplash.com/photo-1500539100099-e16bb0070fb7?w=400&q=80',description:'Half-day sport fishing. All tackle included.'}]},
+  {id:'exp5',name:'Surf Dogo',category:'surf',vertical:'experience',image:'https://images.unsplash.com/photo-1517699418-0999eb78d0c0?w=800&q=80',rating:4.8,reviews:52,deliveryTime:'On request',deliveryFee:0,minOrder:35,tags:['Surf','Beginner','Fun'],description:'Local crew, good vibes, no ego. Makes learning to surf fun.',phone:'50766930400',hours:{open:6,close:18},products:[{name:'Surf Lesson',price:35,image:'https://images.unsplash.com/photo-1455729552865-3658a5d39692?w=400&q=80',description:'Group lesson. Board and equipment included.'},{name:'Board + Wetsuit Rental',price:30,image:'https://images.unsplash.com/photo-1505459668311-8dfac7952bf0?w=400&q=80',description:'Half day rental.'},{name:'Surf & Lunch Package',price:55,image:'https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=400&q=80',description:'2hr lesson + post-surf lunch.'}]},
+  // DB experiences
+  {id:'e5',name:'Safari Surf School',category:'surf',vertical:'experience',image:'https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=800&q=80',rating:4.9,reviews:60,deliveryTime:'On request',deliveryFee:0,minOrder:30,tags:['Surf','Horseback','Professional'],description:'The most established surf school in Venao. Pro instructors, horseback riding too.',phone:'',hours:{open:6,close:17},products:[{name:'Surf Lesson (1hr)',price:52,image:'https://images.unsplash.com/photo-1455729552865-3658a5d39692?w=400&q=80',description:'Private surf lesson with pro instructor.'},{name:'Horseback Beach Ride',price:30,image:'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=400&q=80',description:'Seaside horseback safari along the coast.'}]},
+  {id:'e6',name:'Kahuna Venao',category:'surf',vertical:'experience',image:'https://images.unsplash.com/photo-1520443240718-fce21901db79?w=800&q=80',rating:4.8,reviews:45,deliveryTime:'On request',deliveryFee:0,minOrder:40,tags:['Surf','Wellness','Events'],description:'Surf school + wellness. Surf lessons, ice baths, sunset parties.',phone:'',hours:{open:7,close:18},products:[]},
+  {id:'e7',name:'ICT Tours - Isla Iguana',category:'experience',vertical:'experience',image:'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80',rating:4.7,reviews:35,deliveryTime:'On request',deliveryFee:0,minOrder:63,tags:['Snorkeling','Island','Coral Reef'],description:"Day trip to Isla Iguana — Panama's largest coral reef, wildlife, beach.",phone:'50767180032',hours:{open:8,close:16},products:[{name:'Tour (2 pax)',price:95,image:'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&q=80',description:'Private all-inclusive. Snorkel gear, boat, transport.'},{name:'Group Tour (5-6 pax)',price:63,image:'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&q=80',description:'Group rate. Same all-inclusive package.'}]},
+  {id:'e8',name:'Horseback Riding Venao',category:'experience',vertical:'experience',image:'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=800&q=80',rating:4.6,reviews:20,deliveryTime:'On request',deliveryFee:0,minOrder:30,tags:['Horseback','Beach','Sunset'],description:'Beach and hillside horseback tours. Sunset rides along the coast.',phone:'',hours:{open:7,close:17},products:[{name:'Beach Ride',price:30,image:'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=400&q=80',description:'1-hour ride along the coast. Photo package available.'}]},
+  {id:'e9',name:'Canas Jungle Zip Line',category:'experience',vertical:'experience',image:'https://images.unsplash.com/photo-1530866495561-507c83dc6de4?w=800&q=80',rating:4.5,reviews:18,deliveryTime:'On request',deliveryFee:0,minOrder:45,tags:['Zip Line','Jungle','Adrenaline'],description:'7km of canopy zip lines through the jungle. Valley views, hiking trails.',phone:'',hours:{open:8,close:16},products:[{name:'Zip Line Tour',price:45,image:'https://images.unsplash.com/photo-1530866495561-507c83dc6de4?w=400&q=80',description:'Full canopy zip line experience.'}]},
+  {id:'ea',name:'Turtle Nesting Tour',category:'experience',vertical:'experience',image:'https://images.unsplash.com/photo-1591025207163-942350e47db2?w=800&q=80',rating:4.8,reviews:25,deliveryTime:'On request',deliveryFee:0,minOrder:35,tags:['Turtles','Night Tour','Seasonal'],description:'Guided night tours to see sea turtles nesting. Seasonal: July-November.',phone:'',hours:{open:20,close:5},products:[{name:'Nesting Tour',price:35,image:'https://images.unsplash.com/photo-1591025207163-942350e47db2?w=400&q=80',description:'Night tour at Isla Canas. See turtles nesting and hatchlings.'}]},
+
+  // STAYS
+  {id:'stay1',name:'La Playa Cabinas',category:'stay',vertical:'stay',image:'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80',rating:4.5,reviews:73,deliveryTime:'On request',deliveryFee:0,minOrder:55,tags:['Beachfront','Private','AC'],description:'Simple, clean beachfront cabinas right on Playa Venao. Best location.',phone:'',hours:{open:0,close:24},products:[{name:'Cabina (1 night)',price:55,image:'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400&q=80',description:'Private cabina, beachfront. Sleeps 2. AC and fan.'}]},
+  {id:'stay2',name:'Venao Hostel',category:'stay',vertical:'stay',image:'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800&q=80',rating:4.3,reviews:112,deliveryTime:'On request',deliveryFee:0,minOrder:18,tags:['Hostel','Social','Budget'],description:'The social hub. Dorm beds, great vibes, hammocks, shared kitchen.',phone:'',hours:{open:0,close:24},products:[{name:'Dorm Bed (1 night)',price:18,image:'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=400&q=80',description:'Dorm bed in shared room. Lockers, common area.'}]},
+  {id:'stay3',name:'Surf Camp Glamping',category:'stay',vertical:'stay',image:'https://images.unsplash.com/photo-1510672981848-a1c4f1cb5ccf?w=800&q=80',rating:4.7,reviews:47,deliveryTime:'On request',deliveryFee:0,minOrder:85,tags:['Glamping','Eco','Unique'],description:'Luxury safari tents steps from the break. The coolest sleep in Venao.',phone:'',hours:{open:0,close:24},products:[{name:'Glamping Tent (1 night)',price:85,image:'https://images.unsplash.com/photo-1510672981848-a1c4f1cb5ccf?w=400&q=80',description:'Safari tent with real beds, fans, private bathroom. Breakfast included.'}]},
+  // DB stays
+  {id:'f1',name:'Selina Playa Venao',category:'stay',vertical:'stay',image:'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80',rating:4.5,reviews:802,deliveryTime:'On request',deliveryFee:0,minOrder:18,tags:['Hostel','Hotel','Pool','Coworking'],description:'#1 rated specialty lodging. Hostel + hotel hybrid. Pool, surf shop, coworking, yoga.',phone:'',hours:{open:0,close:24},products:[{name:'Dorm Bed',price:18,image:'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=400&q=80',description:'Shared dorm. Pool access.'},{name:'Private Room',price:65,image:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&q=80',description:'Private room for 2. AC, WiFi, pool.'}]},
+  {id:'f2',name:'El Sitio Hotel',category:'stay',vertical:'stay',image:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=80',rating:4.3,reviews:289,deliveryTime:'On request',deliveryFee:0,minOrder:80,tags:['Resort','Beachfront','Pool','Events'],description:'#1 best value resort. Beachfront rooms, suites, pool, surf shop, restaurant.',phone:'',hours:{open:0,close:24},products:[{name:'Standard Room',price:80,image:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&q=80',description:'Beachfront room. Ocean view, AC, WiFi.'}]},
+  {id:'f3',name:'Eco Venao Lodge',category:'stay',vertical:'stay',image:'https://images.unsplash.com/photo-1510672981848-a1c4f1cb5ccf?w=800&q=80',rating:4.6,reviews:150,deliveryTime:'On request',deliveryFee:0,minOrder:45,tags:['Eco','Beachfront','Farm-to-Table'],description:'Eco-luxury beachfront. Cabanas, cottages, farm-to-table dining. The original Venao destination.',phone:'',hours:{open:0,close:24},products:[{name:'Eco Cabana',price:45,image:'https://images.unsplash.com/photo-1510672981848-a1c4f1cb5ccf?w=400&q=80',description:'Beachfront cabana. Nature immersion.'}]},
+  {id:'f4',name:'Beach Break Surf Camp',category:'stay',vertical:'stay',image:'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=800&q=80',rating:4.4,reviews:60,deliveryTime:'On request',deliveryFee:0,minOrder:40,tags:['Boutique','Surf Camp','Ocean View'],description:'Boutique hotel steps from the break. Ocean-view apartments. AC, WiFi, surf shop.',phone:'',hours:{open:0,close:24},products:[]},
+  {id:'f5',name:'Playa Venao Hotel Resort',category:'stay',vertical:'stay',image:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',rating:4.2,reviews:100,deliveryTime:'On request',deliveryFee:0,minOrder:90,tags:['Resort','Pool','Spa','Nightclub'],description:'3.5-star resort. 45 rooms, infinity pool, spa, nightclub, rooftop terrace.',phone:'',hours:{open:0,close:24},products:[]},
+  {id:'f6',name:'Villa Marina Lodge',category:'stay',vertical:'stay',image:'https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800&q=80',rating:4.5,reviews:75,deliveryTime:'On request',deliveryFee:0,minOrder:120,tags:['Family','Quiet','Condos'],description:'2-bedroom condos for families. Quiet location, away from party areas.',phone:'',hours:{open:0,close:24},products:[]},
+  {id:'f7',name:'Dos Mares Venao Village',category:'stay',vertical:'stay',image:'https://images.unsplash.com/photo-1587061949409-02df41d5e562?w=800&q=80',rating:5.0,reviews:30,deliveryTime:'On request',deliveryFee:0,minOrder:65,tags:['Bungalows','Cozy','Breakfast'],description:'Cozy bungalows and cabins. 5.0 rated. Breakfast delivery option.',phone:'',hours:{open:0,close:24},products:[]},
+];
+
+// Determine badge class
+function getBadgeClass(b) {
+  if (b.vertical === 'stay' || b.category === 'stay') return 'badge-stay';
+  if (b.vertical === 'experience' || b.category === 'experience' || b.category === 'surf') return 'badge-experience';
+  if (b.category === 'drinks') return 'badge-drinks';
+  if (b.category === 'grocery') return 'badge-grocery';
+  if (b.category === 'wellness') return 'badge-wellness';
+  return 'badge-food';
+}
+function getBadgeLabel(b) {
+  if (b.vertical === 'stay' || b.category === 'stay') return 'Stay';
+  if (b.vertical === 'experience' || b.category === 'experience') return 'Experience';
+  if (b.category === 'surf') return 'Surf';
+  if (b.category === 'drinks') return 'Drinks';
+  if (b.category === 'grocery') return 'Grocery';
+  if (b.category === 'wellness') return 'Wellness';
+  return 'Restaurant';
+}
+function getFilterCat(b) {
+  if (b.vertical === 'stay' || b.category === 'stay') return 'stay';
+  if (b.vertical === 'experience' || b.category === 'experience') return 'experience';
+  if (b.category === 'surf') return 'surf';
+  if (b.category === 'drinks') return 'drinks';
+  if (b.category === 'grocery') return 'grocery';
+  if (b.category === 'wellness') return 'wellness';
+  return 'food';
+}
+
+const grid = document.getElementById('grid');
+const modalOverlay = document.getElementById('modalOverlay');
+const modal = document.getElementById('modal');
+const searchInput = document.getElementById('searchInput');
+let activeFilter = 'all';
+
+function renderCards(filter, search) {
+  let filtered = businesses;
+  if (filter !== 'all') filtered = filtered.filter(b => getFilterCat(b) === filter);
+  if (search) {
+    const q = search.toLowerCase();
+    filtered = filtered.filter(b => b.name.toLowerCase().includes(q) || b.description.toLowerCase().includes(q) || b.tags.some(t => t.toLowerCase().includes(q)));
+  }
+  document.getElementById('bizCount').textContent = filtered.length + ' businesses';
+  grid.innerHTML = filtered.map(b => `
+    <div class="biz-card" onclick="openModal('${b.id}')">
+      <div class="img" style="background-image:url('${b.image}')">
+        <span class="badge ${getBadgeClass(b)}">${getBadgeLabel(b)}</span>
+      </div>
+      <div class="info">
+        <div class="name">${b.name}</div>
+        <div class="desc">${b.description}</div>
+        <div class="meta">
+          <span class="star">★ ${b.rating}</span>
+          <span>${b.reviews} reviews</span>
+          ${b.deliveryTime !== 'On request' ? `<span>${b.deliveryTime} min</span>` : '<span>On request</span>'}
+        </div>
+        <div class="tags">${b.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      </div>
+    </div>
+  `).join('');
+  if (!filtered.length) grid.innerHTML = '<div class="empty">No businesses found</div>';
+}
+
+function openModal(id) {
+  const b = businesses.find(x => x.id === id);
+  if (!b) return;
+  const hours = b.hours.open === 0 && b.hours.close === 24 ? '24/7' : `${b.hours.open}:00 – ${b.hours.close}:00`;
+  const menuHTML = b.products.length ? b.products.map(p => `
+    <div class="menu-item">
+      <img src="${p.image}" alt="${p.name}">
+      <div class="mi-info">
+        <div class="mi-name">${p.name}</div>
+        <div class="mi-desc">${p.description}</div>
+      </div>
+      <div class="mi-price">$${p.price}</div>
+    </div>
+  `).join('') : '<p style="color:var(--text-muted);font-size:13px">Menu coming soon — contact business directly.</p>';
+
+  const phoneItems = b.products.slice(0, 4);
+  const phoneHTML = phoneItems.map(p => `
+    <div class="ps-item">
+      <img src="${p.image}" alt="">
+      <span class="psi-name">${p.name}</span>
+      <span class="psi-price">$${p.price}</span>
+      <button class="psi-add">+</button>
+    </div>
+  `).join('');
+
+  modal.innerHTML = `
+    <div class="modal-hero" style="background-image:url('${b.image}')">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <span class="badge ${getBadgeClass(b)}" style="display:inline-block;margin-bottom:12px">${getBadgeLabel(b)}</span>
+      <div class="name">${b.name}</div>
+      <div class="desc">${b.description}</div>
+      <div class="meta-row">
+        <span><span class="icon">★</span> ${b.rating} (${b.reviews} reviews)</span>
+        <span><span class="icon">🕐</span> ${hours}</span>
+        ${b.deliveryFee !== undefined && b.deliveryFee > 0 ? `<span><span class="icon">🛵</span> $${b.deliveryFee} delivery</span>` : ''}
+        ${b.minOrder ? `<span><span class="icon">💰</span> Min $${b.minOrder}</span>` : ''}
+        ${b.phone ? `<span><span class="icon">📞</span> +${b.phone}</span>` : ''}
+      </div>
+      <div class="modal-columns">
+        <div class="menu-section">
+          <h3>${b.vertical === 'stay' ? 'Room Options' : b.vertical === 'experience' ? 'Available Packages' : 'Menu'}</h3>
+          ${menuHTML}
+        </div>
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            <div class="ps-header">
+              <div class="ps-back">← Back</div>
+              <div class="ps-name">${b.name}</div>
+              <div class="ps-meta">★ ${b.rating} · ${hours}</div>
+            </div>
+            <div class="ps-img" style="background-image:url('${b.image}')"></div>
+            <div class="ps-info">
+              <div class="ps-title">${b.name}</div>
+              <div class="ps-tags">${b.tags.slice(0,3).map(t => `<span class="ps-tag">${t}</span>`).join('')}</div>
+            </div>
+            <div class="ps-items">${phoneHTML || '<p style="padding:12px;font-size:11px;color:#999">Menu preview</p>'}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  modalOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  modalOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// Filters
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+    renderCards(activeFilter, searchInput.value);
+  });
+});
+
+// Search
+searchInput.addEventListener('input', () => renderCards(activeFilter, searchInput.value));
+
+// Init
+renderCards('all', '');
+</script>
+</body>
+</html>
