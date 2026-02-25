@@ -358,6 +358,12 @@ searchInput.addEventListener('input', () => renderCards(activeFilter, searchInpu
 
 // Init
 renderCards('all', '');
+
+// Auto-open from ?open=ID
+const params = new URLSearchParams(location.search);
+if (params.get('open')) {
+  setTimeout(() => openModal(params.get('open')), 300);
+}
 </script>
 </body>
 </html>
